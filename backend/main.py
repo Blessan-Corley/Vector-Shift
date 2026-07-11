@@ -111,6 +111,15 @@ def is_directed_acyclic_graph(node_ids: List[str], edges: List[PipelineEdge]) ->
 # Routes
 # ---------------------------------------------------------------------------
 
+@app.get("/debug/cors")
+def debug_cors() -> Dict:
+    return {
+        "ALLOWED_ORIGINS_env": os.getenv("ALLOWED_ORIGINS"),
+        "origins": origins,
+        "allow_credentials": allow_credentials
+    }
+
+
 @app.get("/")
 def read_root() -> Dict[str, str]:
     return {"Ping": "Pong"}
