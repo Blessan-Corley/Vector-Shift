@@ -17,23 +17,22 @@ from pydantic import BaseModel, Field
 
 app = FastAPI(title="PipelineForge API", version="1.0.0")
 
-# The frontend (Vite/React) runs on :5173 or :3000 during local development.
-# We also allow configuring production domains via the ALLOWED_ORIGINS environment variable.
-allowed_origins_env = os.getenv("ALLOWED_ORIGINS")
+# Setup CORS origins.
+# Allow specifying origins via environment variable (comma-separated).
+# If ALLOWED_ORIGINS is not set, we default to allowing all origins ("*") for ease of deployment,
+# since this is a public assessment without cookies/session credentials.
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
 if allowed_origins_env:
-    origins = [origin.strip() for origin in allowed_origins_env.split(",") if origin.strip()]
+    origins = [o.strip() for o in allowed_origins_env.split(",") if o.strip()]
+    allow_credentials = True
 else:
-    origins = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ]
+    origins = ["*"]
+    allow_credentials = False
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
