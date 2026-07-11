@@ -129,9 +129,10 @@ backend/.pytest_cache/
 # ------------------------------------------------------------------------------
 # Miscellaneous
 # ------------------------------------------------------------------------------
-# Screen recording or assets not meant for git
+# Screen recording and PDF files
 *.mp4
 *.mov
 *.avi
 *.mkv
-# Keep screen_recording_script.md since it is a text document, but ignore video files if generated
+screen_recording_script.md
+*.pdf
